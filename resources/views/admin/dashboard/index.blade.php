@@ -2,8 +2,7 @@
     'title' => 'Dashboard',
     'nav_active' => 'dashboard',
 ])
-@section('right-menu')
-@endsection
+
 @section('content')
   <section class="content">
     <div class="container-fluid">

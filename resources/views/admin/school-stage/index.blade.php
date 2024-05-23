@@ -13,10 +13,6 @@
 
 @section('content')
   <div class="card card-light">
-    @include('admin._components.card-header', [
-        'title' => 'Grup Pengguna',
-        'description' => 'Daftar grup pengguna pada sistem',
-    ])
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">

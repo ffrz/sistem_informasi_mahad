@@ -9,7 +9,6 @@
   <div class="card card-primary">
     <form class="form-horizontal quick-form" method="POST" action="{{ url('admin/school-stage/edit/' . (int) $item->id) }}">
       @csrf
-      @include('admin._components.card-header', ['title' => $title])
       <div class="card-body">
         <div class="form-row">
           <div class="form-group col-md-4">
