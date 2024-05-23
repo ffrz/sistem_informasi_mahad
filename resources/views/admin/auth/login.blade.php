@@ -13,12 +13,12 @@
 
 <body class="hold-transition login-page">
   <div class="login-box">
-    <div class="card card-outline card-primary">
+    <div class="card card-outline card-warning">
       <div class="card-header text-center text-muted">
         <div>
           <span>Masuk <b>{{ env('APP_NAME') }}</b><sup><small> v{{ env('APP_VERSION_STR') }}</sup></small></span>
         </div>
-        <div class="h1"><b>{{-- App\Models\Setting::value('app.store_name', 'TokoKu') --}}</b></div>
+        <div class="h6"><b>{{ App\Models\Setting::value('school.name', '') }}</b></div>
       </div>
       <div class="card-body">
         @if (Session::has('error'))
@@ -57,7 +57,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-right-to-bracket mr-2"></i>
+              <button type="submit" class="btn btn-warning btn-block"><i class="fa fa-right-to-bracket mr-2"></i>
                 Masuk</button>
             </div>
           </div>
