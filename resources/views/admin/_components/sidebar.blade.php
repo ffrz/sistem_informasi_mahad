@@ -45,12 +45,12 @@ if (!isset($menu_active)) {
         @endif
         {{-- End Report Menu --}}
 
-        {{-- Studentship Menu --}}
-        <li class="nav-item {{ $menu_active == 'studentship' ? 'menu-open' : '' }}">
-          <a href="#" class="nav-link {{ $menu_active == 'studentship' ? 'active' : '' }}">
-            <i class="nav-icon fas fa-users"></i>
+        {{-- Master Menu --}}
+        <li class="nav-item {{ $menu_active == 'master' ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ $menu_active == 'master' ? 'active' : '' }}">
+            <i class="nav-icon fas fa-database"></i>
             <p>
-              Kesantrian
+              Master Data
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -61,35 +61,23 @@ if (!isset($menu_active)) {
                 <p>Santri</p>
               </a>
             </li>
-          </ul>
-        </li>
-        {{-- End Studentship Menu --}}
-
-        {{-- School Menu --}}
-        <li class="nav-item {{ $menu_active == 'school' ? 'menu-open' : '' }}">
-          <a href="#" class="nav-link {{ $menu_active == 'school' ? 'active' : '' }}">
-            <i class="nav-icon fas fa-school"></i>
-            <p>
-              Sekolah
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ url('/admin/school-level') }}" class="nav-link {{ $nav_active == 'school-level' ? 'active' : '' }}">
+              <a href="{{ url('/admin/school-level') }}"
+                class="nav-link {{ $nav_active == 'school-level' ? 'active' : '' }}">
                 <i class="nav-icon fas fa-layer-group"></i>
                 <p>Kelas</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('/admin/school-stage') }}" class="nav-link {{ $nav_active == 'school-stage' ? 'active' : '' }}">
+              <a href="{{ url('/admin/school-stage') }}"
+                class="nav-link {{ $nav_active == 'school-stage' ? 'active' : '' }}">
                 <i class="nav-icon fas fa-layer-group"></i>
                 <p>Tingkat</p>
               </a>
             </li>
           </ul>
         </li>
-        {{-- End Report Menu --}}
+        {{-- End Master Menu --}}
 
         {{-- System Menu --}}
         @if (Auth::user()->canAccess(AclResource::SYSTEM_MENU))

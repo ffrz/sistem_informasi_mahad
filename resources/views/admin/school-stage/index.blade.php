@@ -1,6 +1,6 @@
 @extends('admin._layouts.default', [
     'title' => 'Tingkatan Sekolah',
-    'menu_active' => 'school',
+    'menu_active' => 'master',
     'nav_active' => 'school-stage',
 ])
 

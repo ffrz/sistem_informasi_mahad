@@ -1,9 +1,8 @@
 <?php $title = ($item->id ? 'Edit' : 'Tambah') . ' Santri'; ?>
 @extends('admin._layouts.default', [
     'title' => $title,
-    'menu_active' => 'studentship',
+    'menu_active' => 'master',
     'nav_active' => 'student',
-    'back_button_link' => url('/admin/student/'),
 ])
 
 @section('content')

@@ -1,7 +1,7 @@
 <?php $title = ($item->id ? 'Edit' : 'Tambah') . ' Tingkatan Sekolah'; ?>
 @extends('admin._layouts.default', [
     'title' => $title,
-    'menu_active' => 'school',
+    'menu_active' => 'master',
     'nav_active' => 'school-stage',
 ])
 

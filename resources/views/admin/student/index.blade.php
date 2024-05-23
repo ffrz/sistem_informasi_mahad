@@ -1,6 +1,6 @@
 @extends('admin._layouts.default', [
     'title' => 'Santri',
-    'menu_active' => 'studentship',
+    'menu_active' => 'master',
     'nav_active' => 'student',
 ])
 
