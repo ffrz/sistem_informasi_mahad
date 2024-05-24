@@ -56,7 +56,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($items as $item)
+                @forelse ($items as $item)
                   <tr>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->datetime }}</td>
@@ -74,7 +74,11 @@
                       </div>
                     </td>
                   </tr>
-                @endforeach
+                @empty
+                  <tr>
+                    <td colspan="7" class="empty">Belum ada rekaman</td>
+                  </tr>
+                @endforelse
               </tbody>
             </table>
           </form>

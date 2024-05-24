@@ -1,7 +1,7 @@
 @extends('admin._layouts.default', [
     'title' => 'Pengguna',
     'menu_active' => 'system',
-    'nav_active' => 'users',
+    'nav_active' => 'user',
 ])
 
 @section('right-menu')
@@ -13,11 +13,42 @@
 
 @section('content')
   <div class="card card-light">
-    @include('admin._components.card-header', [
-        'title' => 'Pengguna',
-        'description' => 'Daftar pengguna sistem',
-    ])
     <div class="card-body">
+      <form action="?" method="GET">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group form-inline">
+              <label class="mr-2" for="group_id">Grup:</label>
+              <select class="form-control custom-select mr-4" name="group_id" id="group_id" onchange="this.form.submit();">
+                <option value="">Semua</option>
+                @foreach ($groups as $group)
+                  <option value="{{ $group->id }}" {{ $filter['group_id'] == $group->id ? 'selected' : '' }}>
+                    {{ $group->name }}</option>
+                @endforeach
+              </select>
+              <label class="mr-2" for="type">Jenis Akun:</label>
+              <select class="form-control custom-select mr-4" name="type" id="type" onchange="this.form.submit();">
+                <option value="-1">Semua</option>
+                <option value="1" {{ $filter['type'] == 1 ? 'selected' : '' }}>Administrator</option>
+                <option value="0" {{ $filter['type'] == 0 ? 'selected' : '' }}>Pengguna Biasa</option>
+              </select>
+              <label class="mr-2" for="status">Status:</label>
+              <select class="form-control custom-select mr-4" name="status" id="status" onchange="this.form.submit();">
+                <option value="-1">Semua</option>
+                <option value="1" {{ $filter['status'] == 1 ? 'selected' : '' }}>Aktif</option>
+                <option value="0" {{ $filter['status'] == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <div class="form-group form-inline">
+              <label class="mr-2" for="search">Cari:</label>
+              <input type="text" class="form-control" name="search" id="search" value="{{ $filter['search'] }}"
+                placeholder="Cari pengguna">
+            </div>
+          </div>
+        </div>
+      </form>
       <div class="row">
         <div class="col-md-12">
           <table class="data-table display table table-bordered table-striped table-condensed center-th"
@@ -32,7 +63,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($items as $item)
+              @forelse ($items as $item)
                 <tr>
                   <td>
                     {{ $item->username }}
@@ -52,7 +83,11 @@
                     </div>
                   </td>
                 </tr>
-              @endforeach
+              @empty
+                <tr>
+                  <td colspan="5" class="empty">Belum ada rekaman</td>
+                </tr>
+              @endforelse
             </tbody>
           </table>
         </div>
