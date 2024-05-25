@@ -23,3 +23,9 @@ h6 {
     text-align: center;
     font-style: italic;
 }
+
+.brand-link {
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+}
