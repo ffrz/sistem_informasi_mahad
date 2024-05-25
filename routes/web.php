@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SchoolLevelController;
 use App\Http\Controllers\Admin\SchoolStageController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\StudentBillController;
+use App\Http\Controllers\Admin\StudentBillTypeController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserActivityController;
 use App\Http\Controllers\Admin\UserController;
@@ -89,6 +91,19 @@ Route::middleware([Authenticate::class, OnlyAdmin::class])->prefix('admin')->gro
     });
 
     Route::controller(SchoolLevelController::class)->prefix('school-level')->group(function () {
+        Route::get('', 'index');
+        Route::match(['get', 'post'], 'edit/{id}', 'edit');
+        Route::get('delete/{id}', 'delete');
+    });
+
+    Route::controller(StudentBillController::class)->prefix('student-bill')->group(function() {
+        Route::get('', 'index');
+        Route::match(['get', 'post'], 'generate', 'generate');
+        Route::match(['get', 'post'], 'edit/{id}', 'edit');
+        Route::get('delete/{id}', 'delete');
+    });
+
+    Route::controller(StudentBillTypeController::class)->prefix('student-bill-type')->group(function() {
         Route::get('', 'index');
         Route::match(['get', 'post'], 'edit/{id}', 'edit');
         Route::get('delete/{id}', 'delete');

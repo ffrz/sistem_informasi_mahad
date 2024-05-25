@@ -74,7 +74,7 @@ class StudentController extends Controller
     {
         $item = $id ? Student::find($id) : new Student();
         if (!$item)
-            return redirect('admin/student')->with('warning', 'Santri produk tidak ditemukan.');
+            return redirect('admin/student')->with('warning', 'Santri tidak ditemukan.');
 
         if ($request->method() == 'POST') {
             $validator = Validator::make($request->all(), [

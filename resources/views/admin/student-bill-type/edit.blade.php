@@ -1,21 +1,21 @@
-<?php $title = ($item->id ? 'Edit' : 'Tambah') . ' Santri'; ?>
+<?php $title = ($item->id ? 'Edit' : 'Buat') . ' Tagihan'; ?>
 @extends('admin._layouts.default', [
     'title' => $title,
-    'menu_active' => 'master',
-    'nav_active' => 'student',
+    'menu_active' => 'transaction',
+    'nav_active' => 'student-bill-type',
 ])
 
 @section('content')
   <div class="card card-primary">
-    <form class="form-horizontal quick-form" method="POST" action="{{ url('admin/student/edit/' . (int) $item->id) }}">
+    <form class="form-horizontal quick-form" method="POST" action="{{ url('admin/student-bill-type/edit/' . (int) $item->id) }}">
       @csrf
       <div class="card-body">
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="nis">NIS</label>
-            <input type="text" class="form-control @error('nis') is-invalid @enderror" autofocus id="nis"
-              placeholder="" name="nis" value="{{ old('nis', $item->nis) }}">
-            @error('nis')
+            <label for="name">Jenis Biaya</label>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" autofocus id="name"
+              placeholder="Jenis biaya" name="name" value="{{ old('name', $item->name) }}">
+            @error('name')
               <span class="text-danger">
                 {{ $message }}
               </span>
@@ -24,10 +24,10 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="fullname">Nama Lengkap</label>
-            <input type="text" class="form-control @error('fullname') is-invalid @enderror" autofocus id="fullname"
-              placeholder="" name="fullname" value="{{ old('fullname', $item->fullname) }}">
-            @error('fullname')
+            <label for="amount">Jumlah Biaya (Rp.)</label>
+            <input type="text" class="form-control text-right @error('amount') is-invalid @enderror" autofocus id="amount"
+              placeholder="" name="amount" value="{{ old('amount', format_number($item->amount)) }}">
+            @error('amount')
               <span class="text-danger">
                 {{ $message }}
               </span>
@@ -38,7 +38,7 @@
           <div class="form-group col-md-4">
             <label for="stage_id">Tingkat</label>
             <select class="form-control custom-select" name="stage_id" id="stage_id">
-              <option value="">Pilih Tingkat</option>
+              <option value="">Semua Tingkat</option>
               @foreach ($stages as $stage)
                 <option value="{{ $stage->id }}" {{ $item['stage_id'] == $stage->id ? 'selected' : '' }}>
                   {{ $stage->name }}</option>
@@ -53,28 +53,11 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="level_id">Kelas:</label>
+            <label for="level_id">Semua Kelas</label>
             <select class="form-control custom-select" name="level_id" id="level_id" disabled>
               <option value="">Pilih Kelas</option>
             </select>
             @error('level_id')
-              <span class="text-danger">
-                {{ $message }}
-              </span>
-            @enderror
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label for="status">Status:</label>
-            <select class="form-control custom-select" name="status" id="status">
-              <option value="">Pilih Tingkat</option>
-              @foreach ($statuses as $code => $name)
-                <option value="{{ $code }}" {{ $item->status == $code ? 'selected' : '' }}>
-                  {{ $name }}</option>
-              @endforeach
-            </select>
-            @error('stage_id')
               <span class="text-danger">
                 {{ $message }}
               </span>
@@ -100,7 +83,7 @@
         $level_id.prop('disabled', stage_id == '');
         $level_id.empty();
         $level_id.append($("<option></option>")
-          .attr("value", '-1').text('Pilih Kelas'));
+          .attr("value", '').text('Semua Kelas'));
         if (stage_id > 0) {
           $.each(levels_by_stages[stage_id], function(key, value) {
             $level_id.append($("<option></option>")
@@ -111,6 +94,10 @@
       $('#stage_id').change(on_stage_change);
       on_stage_change();
       $("#level_id").val(item.level_id);
+
+      Inputmask("decimal", Object.assign({
+        allowMinus: false
+      }, INPUTMASK_OPTIONS)).mask("#amount");
     });
   </script>
 @endSection

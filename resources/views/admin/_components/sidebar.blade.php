@@ -22,6 +22,39 @@ if (!isset($menu_active)) {
           </a>
         </li>
 
+        <li class="nav-item {{ $menu_active == 'transaction' ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ $menu_active == 'transaction' ? 'active' : '' }}">
+            <i class="nav-icon fas fa-arrow-right-arrow-left"></i>
+            <p>
+              Transaksi
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ url('/admin/student-bill-payment') }}"
+                class="nav-link {{ $nav_active == 'student-bill-payment' ? 'active' : '' }}">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>Pembayaran</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/admin/student-bill') }}"
+                class="nav-link {{ $nav_active == 'student-bill' ? 'active' : '' }}">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>Tagihan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/admin/student-bill-type') }}"
+                class="nav-link {{ $nav_active == 'student-bill-type' ? 'active' : '' }}">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>Jenis Tagihan</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
         {{-- Report Menu --}}
         @if (Auth::user()->canAccess(AclResource::REPORT_MENU))
           <li class="nav-item {{ $menu_active == 'report' ? 'menu-open' : '' }}">
