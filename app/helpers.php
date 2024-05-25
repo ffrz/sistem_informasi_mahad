@@ -11,7 +11,7 @@ function fill_with_default_value(&$array, $keys, $default)
     }
 }
 
-function numberFromInput($input)
+function number_from_input($input)
 {
     return floatval(str_replace(',', '.', str_replace('.', '', $input)));
 }

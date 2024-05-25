@@ -6,6 +6,8 @@
 
 @section('right-menu')
   <li class="nav-item">
+    <a href="{{ url('/admin/student-bill/generate') }}" class="btn plus-btn btn-warning mr-2" title="Baru"><i
+        class="fa fa-bolt mr-2"> </i>Generate</a>
     <a href="{{ url('/admin/student-bill/edit/0') }}" class="btn plus-btn btn-primary mr-2" title="Baru"><i
         class="fa fa-plus"></i></a>
   </li>
@@ -57,6 +59,7 @@
           </table>
         </div>
       </div>
+      @include('admin._components.paginator', ['items' => $items])
     </div>
   </div>
 @endSection

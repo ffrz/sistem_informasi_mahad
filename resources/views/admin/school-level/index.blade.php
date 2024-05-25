@@ -69,6 +69,7 @@
           </table>
         </div>
       </div>
+      @include('admin._components.paginator', ['items' => $items])
     </div>
   </div>
 @endSection

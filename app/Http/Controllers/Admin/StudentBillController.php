@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SchoolStage;
 use App\Models\Student;
 use App\Models\StudentBill;
 use App\Models\StudentBillType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 class StudentBillController extends Controller
 {
@@ -15,7 +18,7 @@ class StudentBillController extends Controller
     public function index()
     {
         $items = StudentBill::with('student')
-            ->orderBy('id', 'desc')->get();
+            ->orderBy('id', 'desc')->paginate(25);
         return view('admin.student-bill.index', compact('items'));
     }
 
@@ -46,7 +49,7 @@ class StudentBillController extends Controller
             $data = $request->all();
             $data['paid'] = 0;
             $data['total_paid'] = 0;
-            $data['amount'] = numberFromInput($data['amount']);
+            $data['amount'] = number_from_input($data['amount']);
             
             // $data = ['Old Data' => $item->toArray()];
             $item->fill($data);
@@ -74,10 +77,71 @@ class StudentBillController extends Controller
         return view('admin.student-bill.edit', compact('item', 'student_by_ids', 'types', 'students'));
     }
 
-    public function generate()
+    public function generate(Request $request)
     {
-        $bill_types = StudentBillType::all();
-        return view('admin.student-bill.generate', 'bill_types');
+        $item = new stdClass();
+        $item->date = date('Y-m-d');
+        $item->due_date = date('Y-m-d');
+        $item->amount = 0;
+        $item->type_id = 0;
+        $item->description = '';
+
+        if ($request->method() == 'POST') {
+            $validator = Validator::make($request->all(), [
+                'date' => 'required',
+                'amount' => 'required',
+                'type_id' => 'required',
+                'description' => 'required',
+            ], [
+                'date' => 'Tanggal harus diisi',
+                'amount' => 'Jumlah tagihan harus diisi',
+                'type_id' => 'Jenis tagihan harus diisi',
+                'description' => 'Deskripsi harus diisi',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withInput()->withErrors($validator);
+            }
+
+            $data = $request->all();
+            $data['amount'] = number_from_input($data['amount']);
+
+            $q = Student::where('status', '=', Student::STATUS_ACTIVE);
+            $type = StudentBillType::with(['stage', 'level'])->find($data['type_id']);
+            if ($type->stage) {
+                $q->where('stage_id', '=', $type->stage->id);
+            }
+            if ($type->level) {
+                $q->where('level_id', '=', $type->level->id);
+            }
+            $students = $q->orderBy('id', 'asc')->get();
+
+            DB::beginTransaction();
+            foreach ($students as $student) {
+                $data['student_id'] = $student->id;
+
+                $bill = new StudentBill();
+                $bill->fill($data);
+                $bill->save();
+            }
+            DB::commit();
+
+            // $data = ['Old Data' => $item->toArray()];
+            // $data['New Data'] = $item->toArray();
+
+            // UserActivity::log(
+            //     UserActivity::STUDENT_MANAGEMENT,
+            //     ($id == 0 ? 'Tambah' : 'Perbarui') . ' Santri',
+            //     'Santri ' . e($item->name) . ' telah ' . ($id == 0 ? 'dibuat' : 'diperbarui'),
+            //     $data
+            // );
+            return redirect('admin/student-bill')->with('info', 'Tagihan telah digenerate.');
+        }
+        
+        $bill_types = StudentBillType::with(['stage', 'level'])->orderBy('name', 'asc')->get();
+        $stages = SchoolStage::orderBy('name', 'asc')->get();
+
+        return view('admin.student-bill.generate', compact('item', 'bill_types', 'stages'));
     }
 
 

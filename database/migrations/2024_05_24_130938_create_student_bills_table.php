@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('student_bills', function (Blueprint $table) {
             $table->id();
             $table->string('description', 100);
+            $table->date('date')->nullable(true)->default(null);
             $table->date('due_date')->nullable(true)->default(null);
             $table->date('date_paid')->nullable(true)->default(null);
             $table->unsignedBigInteger('student_id')->nullable(true);

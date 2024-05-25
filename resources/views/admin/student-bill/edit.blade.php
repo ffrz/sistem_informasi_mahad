@@ -2,7 +2,7 @@
 @extends('admin._layouts.default', [
     'title' => $title,
     'menu_active' => 'transaction',
-    'nav_active' => 'student-bill-type',
+    'nav_active' => 'student-bill',
 ])
 
 @section('content')
@@ -71,7 +71,7 @@
           <div class="form-group col-md-4">
             <label for="description">Deskripsi</label>
             <input type="text" class="form-control @error('description') is-invalid @enderror" id="description"
-              placeholder="Masukkan deskripsi grup" name="description"
+              placeholder="Masukkan deskripsi" name="description"
               value="{{ old('description', $item->description) }}">
             @error('description')
               <span class="text-danger">

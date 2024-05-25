@@ -19,7 +19,7 @@ class StudentBillTypeController extends Controller
             ->orderBy('stage_id', 'asc')
             ->orderBy('level_id', 'asc')
             ->orderBy('name', 'asc')
-            ->get();
+            ->paginate(10);
         return view('admin.student-bill-type.index', compact('items'));
     }
 
@@ -44,7 +44,7 @@ class StudentBillTypeController extends Controller
             }
 
             $data = $request->all();
-            $data['amount'] = numberFromInput($data['amount']);
+            $data['amount'] = number_from_input($data['amount']);
             $data['stage_id'] = empty($data['stage_id']) ? null : $data['stage_id'];
             $data['level_id'] = empty($data['level_id']) ? null : $data['level_id'];
             

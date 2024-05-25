@@ -98,15 +98,7 @@
         {{-- .row --}}
 
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <p class="text-muted">Menampilkan {{ $items->count() }} rekaman dari total {{ $items->total() }} rekaman.</p>
-        </div>
-        <div class="col-md-6 d-flex justify-content-end">
-          {{ $items->withQueryString()->onEachSide(1)->links('admin._components.paginator') }}
-
-        </div>
-      </div>
+      @include('admin._components.paginator', ['items' => $items])
       {{-- .row --}}
     </div>
   </div>

@@ -12,7 +12,7 @@ class StudentBill extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'description', 'date', 'type_id',
+        'description', 'date', 'due_date', 'type_id',
         'student_id', 
         'amount', 'paid', 'total_paid', 
         'created_at', 'updated_at'
