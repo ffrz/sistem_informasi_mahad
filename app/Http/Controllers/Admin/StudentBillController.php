@@ -15,11 +15,32 @@ use stdClass;
 class StudentBillController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $items = StudentBill::with('student')
-            ->orderBy('id', 'desc')->paginate(25);
-        return view('admin.student-bill.index', compact('items'));
+        $filter = [
+            'search' => $request->get('search', ''),
+            'stage_id' => $request->get('stage_id', ''),
+            'type_id' => $request->get('type_id', ''),
+        ];
+        $q = StudentBill::with(['student', 'type']);
+        $q->join('students', 'student_id', '=', 'students.id');
+        $q->join('student_bill_types', 'type_id', '=', 'student_bill_types.id');
+
+        if (!empty($filter['search'])) {
+            $q->where('description', 'like', '%' . $filter['search'] . '%');
+            $q->orWhere('fullname', 'like', '%' . $filter['search'] . '%');
+        }
+        if (!empty($filter['type_id'])) {
+            $q->where('student_bills.type_id', '=', $filter['type_id']);
+        }
+        if (!empty($filter['stage_id'])) {
+            $q->where('students.stage_id', '=', $filter['stage_id']);
+        }
+
+        $items = $q->orderBy('student_bills.id', 'desc')->paginate(25);
+        $stages = SchoolStage::query()->orderBy('stage', 'asc')->get();
+        $types = StudentBillType::with(['stage', 'level'])->orderBy('name', 'asc')->get();
+        return view('admin.student-bill.index', compact('items', 'filter', 'stages', 'types'));
     }
 
     public function edit(Request $request, $id = 0)
@@ -50,7 +71,7 @@ class StudentBillController extends Controller
             $data['paid'] = 0;
             $data['total_paid'] = 0;
             $data['amount'] = number_from_input($data['amount']);
-            
+
             // $data = ['Old Data' => $item->toArray()];
             $item->fill($data);
             $item->save();
@@ -137,7 +158,7 @@ class StudentBillController extends Controller
             // );
             return redirect('admin/student-bill')->with('info', 'Tagihan telah digenerate.');
         }
-        
+
         $bill_types = StudentBillType::with(['stage', 'level'])->orderBy('name', 'asc')->get();
         $stages = SchoolStage::orderBy('name', 'asc')->get();
 

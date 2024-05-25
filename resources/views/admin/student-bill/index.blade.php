@@ -16,6 +16,40 @@
 @section('content')
   <div class="card card-light">
     <div class="card-body">
+      <form action="?" method="GET">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group form-inline">
+              <label class="mr-2" for="type_id">Jenis:</label>
+              <select class="form-control custom-select mr-4" name="type_id" id="type_id"
+                onchange="this.form.submit();">
+                <option value="">Semua</option>
+                @foreach ($types as $type)
+                  <option value="{{ $type->id }}" {{ $filter['type_id'] == $type->id ? 'selected' : '' }}>
+                    {{ $type->name .
+                        ($type->stage ? ' - ' . $type->stage->name : '') .
+                        ($type->level ? ' - ' . $type->level->name : '') }}
+                  </option>
+                @endforeach
+              </select>
+              <label class="mr-2" for="stage_id">Tingkat:</label>
+              <select class="form-control custom-select" name="stage_id" id="stage_id" onchange="this.form.submit();">
+                <option value="">Semua</option>
+                @foreach ($stages as $stage)
+                  <option value="{{ $stage->id }}" {{ $filter['stage_id'] == $stage->id ? 'selected' : '' }}>
+                    {{ $stage->name }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <div class="form-group form-inline">
+              <label class="mr-2" for="search">Cari:</label>
+              <input type="text" class="form-control" name="search" id="search" value="{{ $filter['search'] }}">
+            </div>
+          </div>
+        </div>
+      </form>
       <div class="row">
         <div class="col-md-12">
           <table class="data-table display table table-bordered table-striped table-condensed center-th"

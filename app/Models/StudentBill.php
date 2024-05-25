@@ -22,4 +22,9 @@ class StudentBill extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function type()
+    {
+        return $this->belongsTo(StudentBillType::class);
+    }
 }
