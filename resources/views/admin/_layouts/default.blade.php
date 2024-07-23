@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="{{ asset('plugins/datatables-select/css/select.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+  @vite([])
 </head>
 
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
